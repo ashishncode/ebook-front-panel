@@ -1,0 +1,267 @@
+.change_password_page {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  padding-top: 50px;
+}
+.change_password_left {
+  width: 48%;
+  background-color: #eff6f3;
+  border-radius: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.change_password_page {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  padding-top: 50px;
+}
+.change_password_left {
+  width: 48%;
+  max-width: 330px;
+  background-color: #eff6f3;
+  border-radius: 20px;
+  padding: 25px 35px;
+  box-sizing: border-box;
+}
+.change_password_left ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.change_password_left ul li {
+  padding: 8px 0;
+}
+.change_password_left ul li a {
+  font-family: "CircularStd";
+  font-size: 16px;
+  color: #000;
+  text-decoration: none;
+}
+.change_password_left ul li a:hover {
+  color: #1a3d73;
+}
+.change_password_left ul li button {
+  font-family: "CircularStd";
+  font-size: 16px;
+  color: #000 !important;
+  text-decoration: none;
+  padding: 0;
+  background: transparent !important;
+  border: none;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.change_password_left ul li button:hover {
+  background: transparent !important;
+  color: #1a3d73 !important;
+}
+.change_password_left ul li div {
+  position: relative !important;
+  transform: inherit !important;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  padding-bottom: 0;
+}
+.change_password_left ul li div a {
+  font-size: 14px;
+  background: transparent !important;
+}
+
+.change_password_right {
+  width: 70%;
+}
+.dashboard_page_content {
+  width: 100%;
+}
+
+.mybook_top_section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.mybook_top_section h2 {
+  font-family: "CircularStd";
+  font-size: 28px;
+  font-weight: 500;
+  color: #000;
+  padding: 0;
+  margin: 0;
+}
+.mybook_top_section .add_to_new_book {
+  font-family: "CircularStd";
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: #1a3d73;
+  border: solid 1px #1a3d73;
+  border-radius: 10px;
+  text-decoration: none;
+  display: inline-block;
+  padding: 4px 20px;
+}
+.mybook_top_section .add_to_new_book:hover {
+  background: #f15c5c;
+  border: solid 1px #f15c5c;
+}
+.mybook_pro_section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  padding: 25px 0 0;
+  margin: 0 -10px;
+}
+.mybook_product {
+  width: 33.33%;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+.mybook_product_content {
+  border: solid 1px #ededed;
+  border-radius: 50px;
+  padding: 25px 25px 20px;
+  box-sizing: border-box;
+}
+.mybook_pro_img {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.mybook_pro_text {
+  display: flex;
+  align-items: start;
+  padding: 5px 0;
+  box-sizing: border-box;
+}
+.mybook_pro_text span {
+  font-family: "CircularStd";
+  font-size: 14px;
+  font-weight: 500;
+}
+.mybook_pro_text .mybook_text01 {
+  min-width: 65px;
+  padding-right: 5px;
+}
+.mybook_pro_text .mybook_text02 {
+  color: #4d4d4d;
+}
+.mybook_tooltip_btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+}
+.edit_icon {
+  width: 35px;
+  height: 35px;
+  border: solid 1px #244034;
+  border-radius: 50px;
+  margin: 0 5px;
+}
+.edit_icon button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 34px;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0;
+}
+
+@media screen and (max-width: 1280px) {
+  .change_password_right {
+    width: 65%;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .mybook_pro_text span {
+    font-size: 13px;
+  }
+  .edit_icon {
+    width: 25px;
+    height: 22px;
+  }
+  .edit_icon button {
+    width: 20px;
+    height: 20px;
+  }
+  .edit_icon button img {
+    width: 11px;
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .change_password_left {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 50px;
+  }
+  .change_password_right {
+    width: 100%;
+  }
+  .edit_icon {
+    width: 35px;
+    height: 35px;
+  }
+  .edit_icon button {
+    width: 32px;
+    height: 34px;
+  }
+  .edit_icon button img {
+    width: auto;
+    height: auto;
+  }
+}
+@media screen and (max-width: 767px) {
+  .mybook_top_section h2 {
+    font-size: 22px;
+  }
+  .edit_icon {
+    width: 25px;
+    height: 22px;
+  }
+  .edit_icon button {
+    width: 20px;
+    height: 20px;
+  }
+  .edit_icon button img {
+    width: 11px;
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .mybook_pro_section {
+    margin: 0px;
+  }
+  .mybook_product {
+    width: 100%;
+    padding: 10px 0px;
+    box-sizing: border-box;
+  }
+
+  .edit_icon {
+    width: 35px;
+    height: 35px;
+  }
+  .edit_icon button {
+    width: 32px;
+    height: 34px;
+  }
+  .edit_icon button img {
+    width: auto;
+    height: auto;
+  }
+}

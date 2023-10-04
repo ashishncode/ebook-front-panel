@@ -1,0 +1,193 @@
+.change_password_page {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  padding-top: 50px;
+}
+.change_password_right {
+  width: 70%;
+}
+.mybook_top_section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.mybook_top_section h2 {
+  font-family: "CircularStd";
+  font-size: 28px;
+  font-weight: 500;
+  color: #000;
+  padding: 0;
+  margin: 0;
+}
+.mybook_top_section .add_to_new_book {
+  font-family: "CircularStd";
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: #1a3d73;
+  border: solid 1px #1a3d73;
+  border-radius: 10px;
+  text-decoration: none;
+  display: inline-block;
+  padding: 4px 20px;
+}
+.mybook_top_section .add_to_new_book:hover {
+  background: #f15c5c;
+  border: solid 1px #f15c5c;
+}
+.invitation_from {
+  background: #fff;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding: 35px;
+  margin-top: 22px;
+}
+
+.invitation_from .book_details_fild label {
+  font-family: "CircularStd";
+  font-size: 15px;
+  font-weight: 400;
+  color: #000;
+  margin-bottom: 5px !important;
+}
+.invitation_from .book_details_fild input::placeholder {
+  color: #808080 !important;
+}
+.invitation_from .book_details_fild input:focus {
+  border: solid 1px #e5e5e5 !important;
+  color: #808080;
+}
+.invitation_from .book_details_select select {
+  font-family: "CircularStd";
+  font-size: 14px;
+  font-weight: 500;
+  color: #808080;
+  border: solid 1px #e5e5e5;
+  border-radius: 8px;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 0 20px;
+  box-sizing: border-box;
+  height: 52px;
+}
+.invitation_from .book_details_select select:focus {
+  border: solid 1px #e5e5e5 !important;
+  color: #808080;
+}
+.invitation_from .book_details_select {
+  justify-content: space-between;
+  padding: 10px 0;
+}
+.invitation_from .book_details_select label {
+  font-family: "CircularStd";
+  font-size: 15px;
+  font-weight: 400;
+  color: #000;
+  margin-bottom: 5px !important;
+}
+.invitation_from .book_details_introductions {
+  margin-bottom: 0 !important;
+}
+.invitation_from .book_details_introductions label {
+  font-family: "CircularStd";
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+}
+.invitation_from .book_details_introductions input {
+  border: solid 2px #b3b3b3;
+  border-radius: 2px;
+  box-shadow: none !important;
+  outline: none;
+}
+.invitation_from .book_details_select input:focus {
+  border: solid 2px #b3b3b3 !important;
+}
+.invitation_from .contactus_fild {
+  padding-top: 10px;
+}
+.invitation_from .contactus_fild label {
+  font-family: "CircularStd";
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+}
+.invitation_from textarea {
+  font-family: "CircularStd";
+  font-size: 14px;
+  font-weight: 500;
+  color: #808080;
+  border: solid 1px #e5e5e5;
+  border-radius: 8px;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 10px 20px 0;
+  box-sizing: border-box;
+  height: 80px;
+  background-image: none !important;
+}
+.invitation_from textarea::placeholder {
+  color: #808080 !important;
+}
+.invitation_from textarea::focus {
+  border: solid 1px #e5e5e5 !important;
+  color: #808080;
+}
+
+.invitation_from .submit_cancel_btn {
+  padding: 20px 0 0;
+}
+.submit_cancel_btn button:first-child {
+  font-family: "CircularStd";
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  background: #f15c5c;
+  padding: 8px 25px;
+}
+.submit_cancel_btn button:first-child:hover {
+  background: #1a3d73;
+}
+.submit_cancel_btn button:last-child {
+  font-family: "CircularStd";
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+  text-decoration: none;
+  border: none;
+  background: none !important;
+  padding: 8px 20px;
+}
+.submit_cancel_btn button:last-child:hover {
+  color: #1a3d73;
+}
+
+@media screen and (max-width: 1280px) {
+  .change_password_right {
+    width: 65%;
+  }
+}
+@media screen and (max-width: 992px) {
+  .change_password_right {
+    width: 100%;
+  }
+  .mybook_top_section h2 {
+    font-size: 22px;
+  }
+  .invitation_from {
+    padding: 25px;
+    padding-top: 15px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .invitation_from {
+    padding: 25px;
+    padding-top: 15px;
+  }
+}

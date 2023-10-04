@@ -1,0 +1,138 @@
+.change_password_page {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  padding-top: 50px;
+}
+.change_password_right {
+  width: 70%;
+}
+.mybook_top_section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.mybook_top_section h2 {
+  font-family: "CircularStd";
+  font-size: 28px;
+  font-weight: 500;
+  color: #000;
+  padding: 0;
+  margin: 0;
+}
+.mybook_top_section .add_to_new_book {
+  font-family: "CircularStd";
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: #1a3d73;
+  border: solid 1px #1a3d73;
+  border-radius: 10px;
+  text-decoration: none;
+  display: inline-block;
+  padding: 4px 20px;
+}
+.mybook_top_section .add_to_new_book:hover {
+  background: #f15c5c;
+  border: solid 1px #f15c5c;
+}
+.previewexport_page {
+  background: #fff;
+  max-width: 830px;
+  border: solid 2px #d9d9d9;
+  box-sizing: border-box;
+  border-radius: 0;
+  padding: 35px;
+  margin: 22px auto 0;
+}
+.invitation_from .submit_cancel_btn {
+  padding: 20px 0 0;
+}
+.submit_cancel_btn button:first-child {
+  font-family: "CircularStd";
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  background: #f15c5c;
+  padding: 8px 25px;
+}
+.submit_cancel_btn button:first-child:hover {
+  background: #1a3d73;
+}
+.submit_cancel_btn button:last-child {
+  font-family: "CircularStd";
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+  text-decoration: none;
+  border: none;
+  background: none !important;
+  padding: 8px 20px;
+}
+.submit_cancel_btn button:last-child:hover {
+  color: #1a3d73;
+}
+.carousel_invitation_text h3 {
+  font-family: "CircularStd";
+  font-size: 25px;
+  font-weight: 500;
+  color: #000;
+  padding: 0 0 12px;
+  margin: 0;
+}
+.carousel_invitation_text p {
+  font-family: "CircularStd";
+  font-size: 16px;
+  line-height: 32px;
+  color: #000;
+  font-weight: 500;
+  padding: 10px 0;
+  margin: 0;
+}
+.carousel_invitation_content {
+  position: relative;
+}
+.carousel_next_previous_btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.carousel_next_previous_btn .carousel_previous_btn {
+  position: relative;
+  left: -90px;
+}
+.carousel_next_previous_btn .carousel_next_btn {
+  position: relative;
+  right: -90px;
+}
+
+@media screen and (max-width: 1280px) {
+  .change_password_right {
+    width: 65%;
+  }
+}
+@media screen and (max-width: 992px) {
+  .change_password_right {
+    width: 100%;
+  }
+  .mybook_top_section h2 {
+    font-size: 22px;
+  }
+  .invitation_from {
+    padding: 25px;
+    padding-top: 15px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .invitation_from {
+    padding: 25px;
+    padding-top: 15px;
+  }
+}

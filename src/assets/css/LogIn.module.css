@@ -1,0 +1,216 @@
+.login_main {
+  max-width: 665px;
+  margin: 50px auto 0;
+  padding-left: 0;
+  padding-right: 0;
+  box-sizing: border-box;
+}
+.login_page {
+  background: #ffffff;
+  border: 1.3px solid rgba(36, 64, 52, 0.03);
+  border-radius: 10px;
+  padding: 25px 50px;
+  box-sizing: border-box;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+.login_page h2 {
+  font-family: "CircularStd";
+  font-size: 50px;
+  color: #000;
+  font-weight: 500;
+  margin: 0;
+  padding: 15px 0 30px;
+  text-align: center;
+}
+
+.contactus_fild {
+  margin-bottom: 20px;
+}
+.login_page label {
+  font-family: "CircularStd";
+  font-size: 14px;
+  font-weight: 500;
+  color: #9f9f9f;
+  margin-bottom: 10px;
+}
+.login_page input {
+  font-family: "CircularStd";
+  border: solid 1px #000;
+  border-radius: 8px;
+  height: 60px;
+  box-shadow: none !important;
+  outline: none !important;
+  color: #000;
+  font-size: 17px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  background-image: none !important;
+}
+.login_page input::placeholder {
+  font-family: "CircularStd";
+  font-size: 17px;
+  color: #000 !important;
+}
+.login_page input:focus {
+  border: solid 1px #000 !important;
+}
+.login_page textarea {
+  border: solid 1px #000;
+  border-radius: 8px;
+  height: 165px;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 15px 20px 0;
+  box-sizing: border-box;
+  margin-top: 8px;
+}
+.login_page textarea::placeholder {
+  font-family: "CircularStd";
+  font-size: 17px;
+  color: #000 !important;
+}
+.login_page textarea:focus {
+  border: solid 1px #000 !important;
+}
+.login_page .email_icon {
+  position: relative;
+  right: 20px;
+  margin-top: -46px;
+  float: right;
+}
+.send_message_btn {
+  width: 100%;
+}
+.send_message_btn button {
+  font-family: "CircularStd";
+  font-size: 14px;
+  width: 100%;
+  max-width: 100%;
+  background-color: #1a3d73;
+  border: solid 1px #1a3d73;
+  border: none;
+  border-radius: 8px;
+  height: 50px;
+  margin-top: 5px;
+}
+.keep_logged_text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 18px;
+}
+.keep_logged_text .keep_logged {
+  margin: 0 !important;
+}
+
+.keep_logged_text .keep_logged input {
+  width: 15px;
+  height: 15px;
+  border: solid 1.5px #b3b3b3;
+  border-radius: 2px;
+  padding: 0;
+  position: relative;
+  top: 3px;
+}
+.keep_logged_text .keep_logged label {
+  font-family: "CircularStd";
+  font-size: 13px;
+  color: #000;
+  margin-bottom: 0;
+}
+.keep_logged_text .forget_password {
+  font-family: "CircularStd";
+  font-size: 14px;
+  color: #000;
+}
+.keep_logged_text .forget_password a {
+  color: #000;
+}
+.login_btn Button {
+  font-family: "CircularStd";
+  font-size: 14px;
+  width: 100%;
+  max-width: 100%;
+  background-color: #1a3d73;
+  border: solid 1px #1a3d73;
+  border: none;
+  border-radius: 8px;
+  text-transform: uppercase;
+  height: 50px;
+  margin-top: 0px;
+}
+.login_btn Button:hover {
+  background-color: #f15c5c;
+}
+.login_or_text {
+  text-align: center;
+  border-bottom: solid 1px #d8d8d8;
+  position: relative;
+  margin-top: 5px;
+}
+.login_or_text span {
+  font-family: "CircularStd";
+  font-size: 14px;
+  color: #000;
+  position: relative;
+  top: 12px;
+  background: #fff;
+  padding: 0 20px;
+  text-transform: uppercase;
+}
+.continue_google_facebook {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 30px;
+}
+.continue_google {
+  width: 47%;
+}
+.continue_google img {
+  width: 100%;
+}
+.continue_facebook {
+  width: 47%;
+}
+.continue_facebook img {
+  width: 100%;
+}
+.have_an_account_text {
+  font-family: "CircularStd";
+  font-size: 14px;
+  font-weight: 400;
+  color: #92a09a;
+  text-align: center;
+  padding-top: 25px;
+}
+.have_an_account_text a {
+  color: #92a09a;
+  text-decoration: none;
+}
+.have_an_account_text a:hover {
+  color: #000;
+}
+
+@media screen and (max-width: 767px) {
+  .login_main {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .login_page {
+    padding: 20px;
+  }
+  .login_page h2 {
+    font-size: 32px;
+  }
+  .login_page input {
+    height: 50px;
+    font-size: 15px;
+  }
+  .login_page input::placeholder {
+    font-size: 15px;
+  }
+  .login_page .email_icon {
+    margin-top: -40px;
+  }
+}

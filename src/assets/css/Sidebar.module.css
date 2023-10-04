@@ -1,0 +1,65 @@
+.change_password_left {
+  width: 48%;
+  max-width: 330px;
+}
+.sidebar_content {
+  background-color: #eff6f3;
+  border-radius: 20px;
+  padding: 25px 35px;
+  box-sizing: border-box;
+  width: 100%;
+}
+.sidebar_content ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.sidebar_content ul li {
+  padding: 8px 0;
+}
+.sidebar_content ul li a {
+  font-family: "CircularStd";
+  font-size: 16px;
+  color: #000;
+  text-decoration: none;
+}
+.sidebar_content ul li a:hover {
+  color: #1a3d73;
+}
+.sidebar_content ul li button {
+  font-family: "CircularStd";
+  font-size: 16px;
+  color: #000 !important;
+  text-decoration: none;
+  padding: 0;
+  background: transparent !important;
+  border: none;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.sidebar_content ul li button:hover {
+  background: transparent !important;
+  color: #1a3d73 !important;
+}
+.sidebar_content ul li div {
+  position: relative !important;
+  transform: inherit !important;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  padding-bottom: 0;
+}
+.sidebar_content ul li div a {
+  font-size: 14px;
+  background: transparent !important;
+}
+@media screen and (max-width: 992px) {
+  .change_password_left {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 50px;
+  }
+}
