@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
@@ -19,10 +19,17 @@ import { notification } from 'antd';
 
 
 function Chapter() {
+  const { id } = useParams(); // Get the ID from the URL
+  console.log("here chapter", id);
+
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [value, setValue] = useState("");
   const [chapters, setChapters] = useState([{ title: "", description: "" }]);
+
+  const [chaptersData, setChaptersData] = useState([{ title: "", description: "" }]);
+
+
   const text = <span>Plot Summary</span>;
   const dispatch = useDispatch();
   const formData = useSelector(selectCreateNewBookData);
@@ -34,27 +41,63 @@ function Chapter() {
   //   }
   //   setValidated(true);
   // };
+
+  useEffect(() => {
+    // Fetch the existing record based on the ID if it exists
+    if (id) {
+
+      axios.get(`http://10.16.16.108:7000/api/editbook/${id}`)
+        .then((response) => {
+          console.log("response", response.data);
+          setChaptersData(response.data.chapters);
+          dispatch(updateCreateNewBookField({ field: 'chapters', value: response.data.chapters }));
+          // dispatch(updateCreateNewBookField({ field: 'description', value: response.data.description }));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [id]);
   const handleChange = (e, field, index) => {
     const { name, value } = e.target;
-    // Update the local state
-    const updatedChapters = [...chapters];
 
-    updatedChapters[index] = {
-      ...updatedChapters[index],
-      [name]: value,
-    };
-    setChapters(updatedChapters);
-    console.log(field, value, index);
+    if (id) {
+      console.log("Chapters Data", chaptersData);
 
-    // Dispatch the updated data to Redux
-    dispatch(updateCreateNewBookField({
-      field: 'chapters',
-      value: updatedChapters,
-    }));
+      // If there's an 'id', update 'chaptersData' for the specific chapter
+      const updatedChapterData = [...chaptersData];
+      updatedChapterData[index] = {
+        ...updatedChapterData[index],
+        [name]: value,
+      };
+      setChaptersData(updatedChapterData);
+      // Dispatch the updated data to Redux
+      dispatch(updateCreateNewBookField({
+        field: 'chapters',
+        value: updatedChapterData,
+      }));
+    }
+    else {
+      // Update the local state
+      const updatedChapters = [...chapters];
+
+      updatedChapters[index] = {
+        ...updatedChapters[index],
+        [name]: value,
+      };
+      setChapters(updatedChapters);
+      console.log(field, value, index);
+      // Dispatch the updated data to Redux
+      dispatch(updateCreateNewBookField({
+        field: 'chapters',
+        value: updatedChapters,
+      }));
+    }
   };
+
   const addNewBookSuccessfully = () => {
     notification.success({
-      message: 'Updated book Successfully',
+      message: 'Added book Successfully',
     });
   };
   const handleSubmit = (event, index) => {
@@ -68,7 +111,6 @@ function Chapter() {
       });
       return;
     }
-    console.log("Submitting Chapter", index, "Data:", chapters[index]);
   };
   // const addChapter = () => {
   //   const newChapter = {
@@ -85,28 +127,30 @@ function Chapter() {
       value: newChapter,
     }));
     setChapters([...chapters, newChapter]);
+    setChaptersData([...chaptersData, newChapter]);
   };
   const handleRemoveChapter = (index) => {
-    // Dispatch the action to remove the chapter from Redux
-    dispatch(
-      updateCreateNewBookField({
-        field: "chapters",
-        value: null,
-        index,
-      })
-    );
+    // Ensure formData is defined and contains the 'chapters' property
+
+    console.log("total", formData.formData.chapters);
+    if (formData.formData.chapters) {
+      // Filter out the chapter to be removed from the formData.chapters array
+      const updatedChapters = formData.formData.chapters.filter((_, i) => i !== index);
+      setChapters(updatedChapters);
+      setChaptersData(updatedChapters)
+      dispatch(updateCreateNewBookField({
+        field: 'chapters',
+        value: updatedChapters,
+      }));
+    }
   };
-  console.log("formData.formData", formData.formData);
   const handleFinish = async (e) => {
     e.preventDefault();
-
-
     try {
       // Send the form data to your API endpoint
       const response = await axios.post('http://10.16.16.108:7000/api/createbooks', formData.formData);
 
       // Handle the response from the API, e.g., show a success message
-      console.log('Data submitted successfully:', response.data);
       addNewBookSuccessfully()
       navigate('/mybooks')
       // Optionally, you can reset the form data in the Redux store if needed
@@ -118,9 +162,27 @@ function Chapter() {
     } catch (error) {
       console.error('Error submitting data:', error);
     }
-
   };
+  const handleUpdateFinish = async (e) => {
+    e.preventDefault();
+    try {
+      // Send the form data to your API endpoint
+      const response = await axios.post(`http://10.16.16.108:7000/api/updatebook/${id}`, formData.formData);
 
+      // Handle the response from the API, e.g., show a success message
+      console.log('Data updated successfully:', response.data);
+      addNewBookSuccessfully()
+      navigate('/mybooks')
+      // Optionally, you can reset the form data in the Redux store if needed
+      dispatch(updateCreateNewBookField({ field: 'writingStyle', value: '' }));
+      dispatch(updateCreateNewBookField({ field: 'additionalInstruction', value: '' }));
+
+      // Redirect or navigate to another page
+      // history.push('/success'); // You may need to import 'history' from react-router-dom
+    } catch (error) {
+      console.error('Error submitting data:', error);
+    }
+  };
   return (
     <>
       <div className="common-container">
@@ -205,15 +267,101 @@ function Chapter() {
                 </Row>
               </Form>
             </div>
-            {chapters.map((chapter, index) => (
-              <>
-                <div key={index} className={createnewbookStyle.chapter_one_section}>
+
+            {id ? (
+              chaptersData.map((chapterData, index) => (
+                <>
+                  <div key={index} className={createnewbookStyle.chapter_one_section}>
+                    <div className={createnewbookStyle.mybook_top_section}>
+                      <h2>Chapter {index + 1}</h2>
+                    </div>
+                    <div className={createnewbookStyle.book_details_from}>
+                      <Form
+                        validated={validated[index]}
+                        onSubmit={(event) => handleSubmit(event, index)}
+                      >
+                        <Row
+                          className={`mb-12 ${createnewbookStyle.book_details_select}`}
+                        >
+                          <Col md="12">
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control
+                              required
+                              type="text"
+                              placeholder="Add Platform name"
+                              name="title"
+                              value={chapterData.title} // Use chapterData.title here
+                              onChange={(e) => handleChange(e, "title", index)}
+                            />
+                          </Col>
+                        </Row>
+                        <Row
+                          className={`mb-12 ${createnewbookStyle.book_details_select}`}
+                        >
+                          <Col md="12">
+                            <Form.Label>Title description</Form.Label>
+                            <ReactQuill
+                              theme="snow"
+                              value={chapterData.description} // Use chapterData.description here
+                              onChange={(text) =>
+                                handleChange(
+                                  { target: { name: "description", value: text } },
+                                  "description",
+                                  index
+                                )
+                              }
+                              style={{
+                                height: 120,
+                              }}
+                            />
+                          </Col>
+                        </Row>
+                        <div className={createnewbookStyle.save_draft_btns_section}>
+                          <div className={createnewbookStyle.next_cancel_btns}>
+                            <Button
+                              type="submit"
+                              className={createnewbookStyle.draft_remove_btn}
+                              onClick={() => handleRemoveChapter(index)}
+                            >
+                              Remove
+                            </Button>
+                          </div>
+                        </div>
+                      </Form>
+                    </div>
+                  </div>
+                  <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                    <Row
+                      className={`mb-12 ${createnewbookStyle.book_details_select}`}
+                    >
+                      <Col md="10">
+                        <Form.Control
+                          required
+                          type="text"
+                          placeholder="Enter your text here..."
+                          defaultValue="Enter your text here..."
+                        />
+                      </Col>
+                      <Col md="2">
+                        <a href="/" className={createnewbookStyle.improve_btn}>
+                          Improve
+                        </a>
+                      </Col>
+                    </Row>
+                  </Form>
+                </>
+              ))
+            ) : (
+              chapters.map((chapter, index) => (
+                <>                <div key={index} className={createnewbookStyle.chapter_one_section}>
                   <div className={createnewbookStyle.mybook_top_section}>
                     <h2>Chapter {index + 1}</h2>
                   </div>
                   <div className={createnewbookStyle.book_details_from}>
-                    <Form validated={validated[index]}
-                      onSubmit={(event) => handleSubmit(event, index)}>
+                    <Form
+                      validated={validated[index]}
+                      onSubmit={(event) => handleSubmit(event, index)}
+                    >
                       <Row
                         className={`mb-12 ${createnewbookStyle.book_details_select}`}
                       >
@@ -224,11 +372,8 @@ function Chapter() {
                             type="text"
                             placeholder="Add Platform name"
                             name="title"
-                            // defaultValue="Add Platform name"
                             value={chapter.title}
                             onChange={(e) => handleChange(e, "title", index)}
-                          // onChange={handleChange}
-
                           />
                         </Col>
                       </Row>
@@ -239,18 +384,14 @@ function Chapter() {
                           <Form.Label>Title description</Form.Label>
                           <ReactQuill
                             theme="snow"
-                            // value={value}
                             value={chapter.description}
-                            // onChange={setValue}
-                            // onChange={(text) =>
-                            //   handleChange(
-                            //     { target: { name: "description", value: text } },
-                            //     index
-                            //   )
-                            // }
-                            onChange={(text) => handleChange({ target: { name: "description", value: text } }, "description", index)}
-                            // onChange={handleChange}
-
+                            onChange={(text) =>
+                              handleChange(
+                                { target: { name: "description", value: text } },
+                                "description",
+                                index
+                              )
+                            }
                             style={{
                               height: 120,
                             }}
@@ -260,7 +401,7 @@ function Chapter() {
                       <div className={createnewbookStyle.save_draft_btns_section}>
                         <div className={createnewbookStyle.next_cancel_btns}>
                           <Button
-                            type="submit"
+                            type="button"
                             className={createnewbookStyle.draft_remove_btn}
                             onClick={() => handleRemoveChapter(index)}
                           >
@@ -271,27 +412,30 @@ function Chapter() {
                     </Form>
                   </div>
                 </div>
-                <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                  <Row
-                    className={`mb-12 ${createnewbookStyle.book_details_select}`}
-                  >
-                    <Col md="10">
-                      <Form.Control
-                        required
-                        type="text"
-                        placeholder="Enter your text here..."
-                        defaultValue="Enter your text here..."
-                      />
-                    </Col>
-                    <Col md="2">
-                      <a href="/" className={createnewbookStyle.improve_btn}>
-                        Improve
-                      </a>
-                    </Col>
-                  </Row>
-                </Form>
-              </>
-            ))}
+                  <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                    <Row
+                      className={`mb-12 ${createnewbookStyle.book_details_select}`}
+                    >
+                      <Col md="10">
+                        <Form.Control
+                          required
+                          type="text"
+                          placeholder="Enter your text here..."
+                          defaultValue="Enter your text here..."
+                        />
+                      </Col>
+                      <Col md="2">
+                        <a href="/" className={createnewbookStyle.improve_btn}>
+                          Improve
+                        </a>
+                      </Col>
+                    </Row>
+                  </Form>
+                </>
+
+              ))
+            )}
+
             < Form noValidate validated={validated} onSubmit={handleSubmit} >
               {/* <Row
                 className={`mb-12 ${createnewbookStyle.book_details_select}`}
@@ -326,7 +470,7 @@ function Chapter() {
                 <Button
                   type="submit"
                   className={createnewbookStyle.finish_btn}
-                  onClick={handleFinish}
+                  onClick={id ? handleUpdateFinish : handleFinish}
                 >
                   Save
                 </Button>

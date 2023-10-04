@@ -63,7 +63,7 @@ const AllRoutes = () => {
         <Route path="/writingpreferences/:id" element={<WritingPreferences />} />
         <Route path="/witinginterface/:id" element={<WritingInterface />} />
         <Route path="/createnewbookupdate/:_id" element={<CreatenewbookUpdate />} />
-        <Route path="/chapter/:_id" element={<Chapter />} />
+        <Route path="/chapter/:id" element={<Chapter />} />
 
 
 

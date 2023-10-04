@@ -189,23 +189,19 @@ function WritingInterface() {
                               // }}
                               isInvalid={!!validationErrors.location}
                               style={{
-                                border: validationErrors.editingtools ? '1px solid red' : '1px solid #e5e5e5',
+                                // border: validationErrors.editingtools ? '1px solid red' : '1px solid #e5e5e5',
                                 height: '120px',
                                 // Add other styles as needed
                               }}
                             />
-                            {validationErrors.editingtools && (
-                              <div className="invalid-feedback d-block">
-                                {validationErrors.editingtools}
-                              </div>
-                            )}
                           </div>
-                          {/* <Form.Control.Feedback type="invalid">
-                            {validationErrors.editingtools}
-                          </Form.Control.Feedback> */}
                         </Col>
                       </div>
-
+                      {validationErrors.editingtools && (
+                        <div className="invalid-feedback d-block">
+                          {validationErrors.editingtools}
+                        </div>
+                      )}
                     </Col>
                   </Row>
                   <div className={createnewbookStyle.save_draft_btns_section}>
