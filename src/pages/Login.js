@@ -3,7 +3,7 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import LogIn from "../components/login/Login";
 
-function Login() {
+const Login = () => {
   return (
     <header className="App-header">
       <Header />
@@ -11,6 +11,6 @@ function Login() {
       <Footer />
     </header>
   );
-}
+};
 
 export default Login;

@@ -8,42 +8,52 @@ import Row from "react-bootstrap/Row";
 import sentinvitationsStyle from "../../assets/css/sentinvitations.module.css";
 import Sidebar from "../common/Sidebar";
 import { Tooltip } from "antd";
-import axios from 'axios';
-import { notification } from 'antd';
+import axios from "axios";
+import { notification } from "antd";
+import io from "socket.io-client";
 
+// Now you can create the socket connection
+const socket = io.connect("http://10.16.16.108:7000");
 
 function SentInvitation() {
   const [validated, setValidated] = useState(false);
   const text = <span>View</span>;
   const refund = <span>Download</span>;
   const [formData, setFormData] = useState({
-    BookId: '',
-    receiver: '',
-    Role: '',
-    message: '',
+    BookId: "",
+    receiver: "",
+    Role: "",
+    message: "",
   });
   const [authors, setAuthors] = useState([]);
+  console.log(authors, "authors");
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const showSuccessRequest = () => {
     notification.success({
-      message: 'Request sent Successfully',
-      description: 'You have sent request successfully to Author.',
+      message: "Request sent Successfully",
+      description: "You have sent request successfully to Author.",
     });
   };
+  const sendreq = () => {
+    console.log("here");
+    socket.emit("sendmsg", { message: "hello" });
+  };
 
-
-  useEffect(() => {
-    // Fetch authors from the API
-    axios.get('http://10.16.16.108:7000/list/author/frontend') // You may need to specify the full URL here
+  const getAllAuthorList = () => {
+    axios
+      .get("http://10.16.16.108:7000/api/list/author/frontend") // You may need to specify the full URL here
       .then((response) => {
+        if (response.status === 200) console.log(response, "author respone");
         setAuthors(response.data.getAllAuthorData);
-        setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching authors:', error);
-        setLoading(false);
+        console.error("Error fetching authors:", error);
       });
+  };
+
+  useEffect(() => {
+    getAllAuthorList();
   }, []);
   const userID = localStorage.getItem("userEmail");
   if (userID) {
@@ -52,19 +62,36 @@ function SentInvitation() {
     // Handle the case where the ID is not available
     console.log("User ID not found in local storage.");
   }
-  useEffect(() => {
 
+  useEffect(() => {
     // Fetch book from the API
-    axios.get(`http://10.16.16.108:7000/api/readbooksbyuser/${userID}`)
+    axios
+      .get(`http://10.16.16.108:7000/api/readbooksbyuser/${userID}`)
       .then((response) => {
         setBooks(response.data);
         setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching authors:', error);
+        console.error("Error fetching authors:", error);
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    // Listen for real-time updates
+    socket.on("newRequest", (newRequestData) => {
+      console.log("New request received in real-time:", newRequestData);
+
+      // You can update your component's state with the new request data if needed
+      // For example, add it to a list of sent invitations
+    });
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      socket.off("newRequest");
+    };
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value, sender: userID });
@@ -79,19 +106,22 @@ function SentInvitation() {
       setValidated(true);
     } else {
       try {
-        await axios.post('http://10.16.16.108:7000/send/request', formData);
-        console.log('Invitation submitted successfully');
+        await axios.post("http://10.16.16.108:7000/api/send/request", formData); //10.16.16.108
+        console.log("Invitation submitted successfully");
         showSuccessRequest();
+        // Emit a Socket.io event to notify the server about the new request
+        socket.emit("newRequest", formData);
+
         // Reset the form
         setFormData({
-          BookId: '',
-          receiver: '',
-          Role: '',
-          message: '',
+          BookId: "",
+          receiver: "",
+          Role: "",
+          message: "",
         });
         setValidated(false);
       } catch (error) {
-        console.error('Error submitting invitation:', error);
+        console.error("Error submitting invitation:", error);
       }
     }
   };
@@ -112,7 +142,8 @@ function SentInvitation() {
                 >
                   <Col md="6">
                     <Form.Label>Select Book</Form.Label>
-                    <Form.Select aria-label="Fiction"
+                    <Form.Select
+                      aria-label="Fiction"
                       as="select"
                       name="BookId"
                       value={formData.BookId}
@@ -130,18 +161,20 @@ function SentInvitation() {
                         ))
                       )}
                     </Form.Select>
-                    <Form.Control.Feedback type="invalid">Please select a book.</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">
+                      Please select a book.
+                    </Form.Control.Feedback>
                   </Col>
                   <Col md="6">
                     <Form.Label>Select Author</Form.Label>
-                    <Form.Select aria-label="Children"
+                    <Form.Select
+                      aria-label="Children"
                       as="select"
                       name="receiver"
                       value={formData.receiver}
                       onChange={handleChange}
                       required
                     >
-
                       <option value="">Choose an Author</option>
                       {loading ? (
                         <option>Loading Authors...</option>
@@ -153,7 +186,9 @@ function SentInvitation() {
                         ))
                       )}
                     </Form.Select>
-                    <Form.Control.Feedback type="invalid">Please select an author.</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">
+                      Please select an author.
+                    </Form.Control.Feedback>
                   </Col>
                 </Row>
                 <Row
@@ -161,7 +196,8 @@ function SentInvitation() {
                 >
                   <Col md="12">
                     <Form.Label>Role Assign</Form.Label>
-                    <Form.Select aria-label="Fiction"
+                    <Form.Select
+                      aria-label="Fiction"
                       as="select"
                       name="Role"
                       value={formData.Role}
@@ -172,7 +208,9 @@ function SentInvitation() {
                       <option value="view">View</option>
                       <option value="Edit">Edit</option>
                     </Form.Select>
-                    <Form.Control.Feedback type="invalid">Please select a role.</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">
+                      Please select a role.
+                    </Form.Control.Feedback>
                   </Col>
                 </Row>
                 <Row className={`mb-12 ${sentinvitationsStyle.contactus_fild}`}>
@@ -187,14 +225,20 @@ function SentInvitation() {
                       onChange={handleChange}
                       required
                     />
-                    <Form.Control.Feedback type="invalid">Please enter a message.</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">
+                      Please enter a message.
+                    </Form.Control.Feedback>
                   </Form.Group>
                 </Row>
                 <div className={sentinvitationsStyle.submit_cancel_btn}>
                   <Button className="submit_btn" type="submit">
                     Submit
                   </Button>
-                  <Button className="cancel_btn" type="submit">
+                  <Button
+                    className="cancel_btn"
+                    type="button"
+                    onClick={sendreq}
+                  >
                     Cancel
                   </Button>
                 </div>

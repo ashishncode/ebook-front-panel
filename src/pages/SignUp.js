@@ -3,7 +3,7 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import Signup from "../components/signup/Signup";
 
-function SignUp() {
+const SignUp = () => {
   return (
     <header className="App-header">
       <Header />
@@ -11,6 +11,6 @@ function SignUp() {
       <Footer />
     </header>
   );
-}
+};
 
 export default SignUp;

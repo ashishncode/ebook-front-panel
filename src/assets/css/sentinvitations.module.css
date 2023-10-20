@@ -54,9 +54,9 @@
   color: #000;
   margin-bottom: 5px !important;
 }
-.invitation_from .book_details_fild input::placeholder {
+/* .invitation_from .book_details_fild input::placeholder {
   color: #808080 !important;
-}
+} */
 .invitation_from .book_details_fild input:focus {
   border: solid 1px #e5e5e5 !important;
   color: #808080;
@@ -130,9 +130,9 @@
   height: 80px;
   background-image: none !important;
 }
-.invitation_from textarea::placeholder {
+/* .invitation_from textarea::placeholder {
   color: #808080 !important;
-}
+} */
 .invitation_from textarea::focus {
   border: solid 1px #e5e5e5 !important;
   color: #808080;

@@ -8,11 +8,15 @@ import PlotSummary from "../components/Createnewbook/Plotsummary";
 import WritingPreferences from "../components/Createnewbook/WritingPreferences";
 import WritingInterface from "../components/Createnewbook/WritingInterface";
 import Chapter from "../components/Createnewbook/Chapter";
+import HeaderLogin from "../components/common/Header_login";
 
-function CreatenewbookPage() {
+const CreatenewbookPage = () => {
+  const userEmail = localStorage.getItem("userEmail");
+
   return (
     <header className="App-header">
-      <Header />
+      {userEmail ? <HeaderLogin /> : <Header />}
+
       <Createnewbook />
       <Maincharacters />
       <Setting />
@@ -23,6 +27,6 @@ function CreatenewbookPage() {
       <Footer />
     </header>
   );
-}
+};
 
 export default CreatenewbookPage;

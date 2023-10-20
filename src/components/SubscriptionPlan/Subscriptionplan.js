@@ -7,7 +7,7 @@ import mybookStyle from "../../assets/css/mybook.module.css";
 import { Tooltip } from "antd";
 import Sidebar from "../common/Sidebar";
 
-function Subscriptionplan() {
+const Subscriptionplan = () => {
   const [validated, setValidated] = useState(false);
   const text = <span>Upgrade</span>;
 
@@ -130,6 +130,6 @@ function Subscriptionplan() {
       </div>
     </>
   );
-}
+};
 
 export default Subscriptionplan;

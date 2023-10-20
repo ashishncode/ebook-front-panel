@@ -11,132 +11,98 @@ import ViewIcon from "../../assets/images/view_icon.png";
 import LoginStyle from "../../assets/css/LogIn.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useForm } from 'react-hook-form';
-import { notification } from 'antd';
-// import ChangePassword from "../../pages/ChangePassword";
+import { useForm } from "react-hook-form";
+import { notification } from "antd";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
-function Login(props) {
-  // const [email, setEmail] = useState('')
-  // console.log(email, "this is email")
-  // const navigate = useNavigate()
-  // const defaultValues = {
-  //   email: '',
-  //   password: '',
-  //   myCheckbox: '',
-  // };
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   reset,
-  //   setError,
-  //   formState: { errors } } =
-  //   useForm({ defaultValues });
-
-  // const showLoginSuccessNotification = () => {
-  //   notification.success({
-  //     message: 'Login Successful',
-  //     description: 'You have been successfully logged in.',
-  //   });
-  // };
-  // const incorrectPasswordNotification = () => {
-  //   notification.success({
-  //     message: 'incorrect password',
-  //     description: 'Please enter valid password.',
-  //   });
-  // };
-
-  // const onSubmit = async (data) => {
-  //   setEmail(data.email)
-  //   try {
-  //     const response = await axios.post('http://10.16.16.108:7000/loginnewuser', data, {
-  //       headers: {
-  //         'Authorization': `Bearer ${localStorage.getItem('token')}` // Add your token
-  //       }
-  //     }).then((response) => {
-  //       // console.log(data.email, "Data found here");
-  //       showLoginSuccessNotification();
-  //       reset();
-  //       localStorage.setItem('userEmail', data.email);
-  //       console.log(localStorage, "localll storage")
-  //       setEmail(localStorage.userEmail)
-  //       navigate('/dashboard')
-  //       // navigate(`/changePassword/${email}`, { userEmail: email })
-  //       console.log(response.data.message, "My login data"); // Password changed successfully
-  //     })
-  //   } catch (error) {
-  //     if (error.response && error.response.data) {
-  //       setError('currentPassword', { type: 'manual', message: error.response.data.message });
-  //       incorrectPasswordNotification()
-  //     }
-  //   }
-  // };
-
-  const [email, setEmail] = useState('');
-  console.log(email, "this is email");
+const Login = (props) => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(true);
+  const togglePassword = () => {
+    setShowPassword(false);
+    setTimeout(() => {
+      setShowPassword(true);
+    }, 1000); // 3000 milliseconds (3 seconds)
+  };
   const defaultValues = {
-    email: '',
-    password: '',
-    myCheckbox: '',
+    email: "",
+    password: "",
+    myCheckbox: "",
   };
   const {
     register,
     handleSubmit,
     reset,
     setError,
-    formState: { errors }
+    formState: { errors },
   } = useForm({ defaultValues });
 
   const showLoginSuccessNotification = () => {
     notification.success({
-      message: 'Login Successful',
-      description: 'You have been successfully logged in.',
+      message: "Login Successful",
+      description: "You have been successfully logged in.",
     });
   };
   const showUserNotFoundNotification = () => {
     notification.error({
-      message: 'User Not Found',
-      description: 'The provided email does not exist.',
+      message: "User Not Found",
+      description: "Please signup first after login.",
     });
   };
   const showIncorrectPasswordNotification = () => {
     notification.error({
-      message: 'Incorrect Password',
-      description: 'Please enter a valid password.',
+      message: "Incorrect Password",
+      description: "Please enter a valid password.",
+    });
+  };
+
+  const showInnternalServerNotification = () => {
+    notification.error({
+      message: "Internal Server Error",
+      description: "Something went wrong",
+    });
+  };
+  const showInactiveAccountNotification = () => {
+    notification.error({
+      message: "Inactive Account error",
+      description:
+        "Inactive account not permitted for login first do active your account.",
     });
   };
 
   const onSubmit = async (data) => {
-    setEmail(data.email);
     try {
-      const response = await axios.post('http://10.16.16.108:7000/loginnewuser', data, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}` // Add your token
+      const response = await axios.post(
+        "http://10.16.16.108:7000/api/loginnewuser",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Add your token
+          },
         }
-      });
+      );
       if (response.status === 200) {
+        console.log(response, "login response");
         // Login successful
         showLoginSuccessNotification();
         reset();
-        localStorage.setItem('userEmail', data.email);
-        setEmail(localStorage.userEmail);
-        navigate('/dashboard');
-      } else if (response.status === 404) {
-        // User not found
-        showUserNotFoundNotification();
-      } else {
-        // Other status codes or errors
-        showUserNotFoundNotification();
+        console.log(response, "user detail");
+        localStorage.setItem("userEmail", data.email);
+
+        navigate("/dashboard");
       }
-      console.log(response.data.message, "My login data");
     } catch (error) {
-      if (error.response && error.response.data) {
-        // setError('password', { type: 'manual', message: error.response.data.message });
+      if (error?.response?.status === 404) {
+        showUserNotFoundNotification();
+      } else if (error?.response?.status === 401) {
         showIncorrectPasswordNotification();
+      } else if (error?.response?.status === 500) {
+        showInnternalServerNotification();
+      } else if (error?.response?.status === 406) {
+        showInactiveAccountNotification();
       }
     }
   };
-
 
   return (
     <>
@@ -151,20 +117,19 @@ function Login(props) {
                   type="email"
                   name="email"
                   placeholder="example@email.com"
-                  defaultValue="example@email.com"
-                  {...register("email", { required: 'Email is required' })}
+                  {...register("email", {
+                    required: "Please enter your email",
+                  })}
                   isInvalid={errors?.email}
                 />
                 <div className={LoginStyle.email_icon}>
-                  <a href="/">
+                  <a>
                     <img src={EmailIcon} />
                   </a>
                 </div>
                 {/* <Form.Control.Feedback>Email is required</Form.Control.Feedback> */}
                 {errors?.email && (
-                  <Form.Control.Feedback type="invalid">
-                    {errors?.email?.message}
-                  </Form.Control.Feedback>
+                  <span className="text-danger">{errors?.email?.message}</span>
                 )}
               </Form.Group>
             </Row>
@@ -172,35 +137,48 @@ function Login(props) {
               <Form.Group as={Col} md="12" controlId="password">
                 <Form.Label>Password*</Form.Label>
                 <Form.Control
-                  type="text"
+                  type={showPassword ? "password" : "text"}
                   name="password"
                   placeholder="Enter your password"
-                  {...register("password", { required: 'Password is required' })}
-                  isInvalid={errors?.password}
+                  {...register("password", {
+                    required: "Please enter your password",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters long",
+                    },
+                    pattern: {
+                      value:
+                        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+                      message:
+                        "Password must be strong (at least one uppercase letter, one lowercase letter, one digit and one special character from [@$!%*?&])",
+                    },
+                  })}
                 />
-                <div className={LoginStyle.email_icon}>
+                {/* <div className={LoginStyle.email_icon}>
                   <a href="/">
                     <img src={ViewIcon} />
                   </a>
+                </div> */}
+                <div className={LoginStyle.email_icon}>
+                  <a onClick={togglePassword}>
+                    {showPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                  </a>
                 </div>
-                {/* <Form.Control.Feedback type="invalid">
-                  Password is required
-                </Form.Control.Feedback> */}
+
                 {errors?.password && (
-                  <Form.Control.Feedback type="invalid">
+                  <span className="text-danger">
                     {errors?.password?.message}
-                  </Form.Control.Feedback>
+                  </span>
                 )}
               </Form.Group>
             </Row>
             <div className={LoginStyle.keep_logged_text}>
               <Form.Group className={`mb-3 ${LoginStyle.keep_logged}`}>
                 <Form.Check
-                  required
                   type="checkbox"
                   label="Keep me logged in"
                   feedbackType="invalid"
-                  {...register('myCheckbox')}
+                  {...register("myCheckbox")}
                 />
               </Form.Group>
               <div className={LoginStyle.forget_password}>
@@ -236,6 +214,6 @@ function Login(props) {
       /> */}
     </>
   );
-}
+};
 
 export default Login;

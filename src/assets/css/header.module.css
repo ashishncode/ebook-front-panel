@@ -17,6 +17,7 @@
 .header_menu .navbar_brand {
   display: none;
 }
+
 .header_menu .bg_body_tertiary {
   padding: 0;
   background: transparent !important;
@@ -82,7 +83,20 @@
   justify-content: center;
   top: 0;
 }
+.header_welcome_img {
+  display: flex;
+  align-items: center;
+}
+/* .welcomeimg {
+} */
 
+.profile_img {
+  border: 1px solid black;
+  border-radius: 65px;
+  height: 60px;
+  width: 60px;
+  background-color: #90dfaa;
+}
 @media screen and (max-width: 1280px) {
   .header_container {
     max-width: 1170px;

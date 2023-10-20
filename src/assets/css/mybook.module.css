@@ -73,6 +73,13 @@
 .change_password_right {
   width: 70%;
 }
+
+.request_not_found_message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: revert;
+}
 .dashboard_page_content {
   width: 100%;
 }
@@ -108,7 +115,7 @@
   border: solid 1px #f15c5c;
 }
 .mybook_pro_section {
-  display: flex;
+  /* display: flex; */
   flex-wrap: wrap;
   align-items: start;
   justify-content: start;

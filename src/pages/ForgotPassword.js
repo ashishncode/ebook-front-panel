@@ -3,7 +3,7 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import Forgotpassword from "../components/ForgotPassword/Forgotpassword";
 
-function ForgotPassword() {
+const ForgotPassword = () => {
   return (
     <header className="App-header">
       <Header />
@@ -11,6 +11,6 @@ function ForgotPassword() {
       <Footer />
     </header>
   );
-}
+};
 
 export default ForgotPassword;

@@ -41,10 +41,10 @@
 .previewexport_page {
   background: #fff;
   max-width: 830px;
-  border: solid 2px #d9d9d9;
+  /* border: solid 2px #d9d9d9; */
   box-sizing: border-box;
   border-radius: 0;
-  padding: 35px;
+  /* padding: 35px; */
   margin: 22px auto 0;
 }
 .invitation_from .submit_cancel_btn {

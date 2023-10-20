@@ -12,12 +12,28 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { getProgressData } from "../../utility/api";
 
 const Chart = () => {
+  const [proData, setProData] = useState({});
+
+  const getProgressDataHandler = () => {
+    getProgressData().then((res) => {
+      if (res.status === 200) {
+        setProData(res?.data);
+      }
+    });
+  };
+
+  useEffect(() => {
+    getProgressDataHandler();
+  }, []);
   const data = [
-    { name: "Group A", value: 400 },
-    { name: "Group B", value: 300 },
-    { name: "Group C", value: 300 },
+    { name: "Complete Book", value: proData?.completedPercentage },
+    { name: "Pending Book", value: proData?.incompletePercentage },
+    // { name: "Group C", value: 20 },
     // { name: "Group D", value: 200 },
   ];
 

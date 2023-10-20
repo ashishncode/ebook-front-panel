@@ -67,9 +67,9 @@
   box-sizing: border-box;
   height: 52px;
 }
-.editprofile_from .book_details_fild input::placeholder {
+/* .editprofile_from .book_details_fild input::placeholder {
   color: #808080 !important;
-}
+} */
 .editprofile_from .book_details_fild input:focus {
   border: solid 1px #e5e5e5 !important;
   color: #808080;
@@ -122,9 +122,9 @@
   height: 100px;
   background-image: none !important;
 }
-.editprofile_from textarea::placeholder {
+/* .editprofile_from textarea::placeholder {
   color: #808080 !important;
-}
+} */
 .editprofile_from textarea::focus {
   border: solid 1px #e5e5e5 !important;
   color: #808080;

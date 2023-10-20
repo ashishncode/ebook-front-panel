@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -6,63 +6,58 @@ import logo from "../../assets/images/home-logo.png";
 import headerStyle from "../../assets/css/header.module.css";
 import footerStyle from "../../assets/css/footer.module.css";
 import { NavLink } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Button, Modal, notification } from 'antd';
+import { Button, Modal, notification } from "antd";
 
 const Header = () => {
-  // const navigate = useNavigate()
-  // const showSuccessNotification = () => {
-  //   Modal.success({
-  //     title: 'Logout Successful',
-  //     content: 'You have been successfully logged out.',
-  //     onOk: () => {
-  //       // Optional: You can add logic to perform actions after the user clicks "OK"
-  //     },
-  //   });
-  // };
+  const token = localStorage.getItem("authorToken");
 
+  const author = localStorage.getItem("authortype");
+  const storedEmail = localStorage.getItem("userEmail");
 
-  // const handleLogout = async () => {
-  //   try {
-  //     await axios.post('http://10.16.16.108:7000/logoutuser');
-  //     localStorage.removeItem('userEmail');
-  //     showSuccessNotification();
-  //     navigate('/login')
-  //   } catch (error) {
-  //     console.error('Logout failed:', error);
-  //   }
-  // };
+  const navigate = useNavigate();
 
-
-
-  const navigate = useNavigate()
   const showLogoutSuccessNotification = () => {
     notification.success({
-      message: 'Logout Successful',
-      description: 'You have been successfully logged out.',
+      message: "Logout Successful",
+      description: "You have been successfully logged out.",
     });
   };
+
   const showLogoutConfirmationModal = () => {
     Modal.confirm({
-      title: 'Are you sure you want to logout?',
-      content: 'Logging out will end your current session.',
+      title: "Are you sure you want to logout?",
+      content: "Logging out will end your current session.",
       onOk: () => {
-        axios.post('http://10.16.16.108:7000/logoutuser')
-          .then(() => {
-            showLogoutSuccessNotification();
-            navigate('/login')
-          })
-          .catch((error) => {
-          });
+        if (author) {
+          axios
+            .post(`http://10.16.16.108:7000/api/logout/author/${token}`)
+            .then(() => {
+              showLogoutSuccessNotification();
+              localStorage.removeItem("authortype");
+              navigate("/AuthorLoginPage");
+            })
+            .catch((error) => {});
+        } else {
+          axios
+            .post("http://10.16.16.108:7000/api/logoutuser")
+            .then(() => {
+              showLogoutSuccessNotification();
+              localStorage.removeItem("userEmail");
+              navigate("/login");
+            })
+            .catch((error) => {});
+        }
       },
       onCancel: () => {
         // Handle cancel action if needed
       },
-      okText: 'OK', // Customize the "OK" button text
-      cancelText: 'Cancel', // Customize the "Cancel" button text
+      okText: "OK", // Customize the "OK" button text
+      cancelText: "Cancel", // Customize the "Cancel" button text
     });
   };
+
   return (
     <div className={headerStyle.header_container}>
       <div className={headerStyle.header_main}>
@@ -90,7 +85,8 @@ const Header = () => {
         <div className={headerStyle.header_login_singup}>
           <NavLink to="/Login">Login</NavLink>
           <NavLink to="/SignUp">/Sign up</NavLink>
-          <NavLink onClick={showLogoutConfirmationModal}>/Logout</NavLink>
+          {/* <NavLink onClick={showLogoutConfirmationModal}>/Logout</NavLink>
+          <NavLink to="/changePassword">/Change Passwowd</NavLink> */}
         </div>
       </div>
     </div>

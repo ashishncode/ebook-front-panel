@@ -8,57 +8,154 @@ import Row from "react-bootstrap/Row";
 import ViewIcon from "../../assets/images/view_icon.png";
 import ChangepasswordStyle from "../../assets/css/changepassword.module.css";
 import Sidebar from "../common/Sidebar";
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import { notification } from 'antd';
+import { notification } from "antd";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
-
-function Changepassword() {
-  const navigate = useNavigate()
-  const [Oldpassword, setOldpassword] = useState('');
-  const [newpassword, setNewpassword] = useState('');
-  const [PasswordConfirm, setPasswordConfirm] = useState('');
+const Changepassword = () => {
+  const navigate = useNavigate();
+  const [Oldpassword, setOldpassword] = useState("");
+  const [newpassword, setNewpassword] = useState("");
+  const [PasswordConfirm, setPasswordConfirm] = useState("");
+  const [oldPasswordError, setOldPasswordError] = useState("");
+  const [newPasswordError, setNewPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const oldPass = useRef(null);
   const newPass = useRef(null);
   const confirmPass = useRef(null);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(true);
+  const [showNewPassword, setShowNewPassword] = useState(true);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(true);
+
+  const toggleCurrentPassword = () => {
+    setShowCurrentPassword(false);
+    setTimeout(() => {
+      setShowCurrentPassword(true);
+    }, 1000); // 3000 milliseconds (3 seconds)
+  };
+  const toggleNewPassword = () => {
+    setShowNewPassword(false);
+    setTimeout(() => {
+      setShowNewPassword(true);
+    }, 1000); // 3000 milliseconds (3 seconds)
+  };
+  const toggleConfirmPassword = () => {
+    setShowConfirmPassword(false);
+    setTimeout(() => {
+      setShowConfirmPassword(true);
+    }, 1000); // 3000 milliseconds (3 seconds)
+  };
+  const validateOldPassword = () => {
+    if (!Oldpassword) {
+      setOldPasswordError("Please enter your current password");
+      return false;
+    }
+    setOldPasswordError("");
+    return true;
+  };
+
+  const validateNewPassword = () => {
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    if (!newpassword) {
+      setNewPasswordError("Please enter your new password");
+      return false;
+    } else if (newpassword.length < 6) {
+      setNewPasswordError("Password should be at least 6 characters long.");
+      return false;
+    } else if (!passwordRegex?.test(newpassword)) {
+      setNewPasswordError(
+        "Password must be strong (at least one uppercase letter, one lowercase letter, one digit and one special character from [@$!%*?&])"
+      );
+      return false;
+    }
+    setNewPasswordError("");
+    return true;
+  };
+
+  const validateConfirmPassword = () => {
+    if (!PasswordConfirm) {
+      setConfirmPasswordError("Please enter your confirm new password");
+      return false;
+    } else if (newpassword !== PasswordConfirm) {
+      setConfirmPasswordError("Passwords does not match.");
+      return false;
+    }
+    setConfirmPasswordError("");
+    return true;
+  };
+
   const showChangePasswordNotification = () => {
     notification.success({
-      message: 'Password Changed Successfully',
-      description: 'You have successfully changed your password.',
+      message: "Password Changed Successfully",
+      description: "You have successfully changed your password.",
     });
   };
-  const email = localStorage.getItem('userEmail');
-  console.log('username gggg:', email);
+  const InCorrectPasswordNotification = () => {
+    notification.success({
+      message: "Password Error",
+      description: "Old password is wrong.",
+    });
+  };
+
+  const author = localStorage.getItem("authortype");
+
+  const email = author
+    ? localStorage.getItem("authorEmail")
+    : localStorage.getItem("userEmail");
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    if (newpassword !== PasswordConfirm) {
-      console.log('Password do not match');
-      return;
-    }
-    try {
-      const response = await axios.post(`http://10.16.16.108:7000/api/changepassword`, {
-        Oldpassword,
-        newpassword,
-        PasswordConfirm,
-        email,
-      }).then((response) => {
-        console.log('Password changed successfully');
-        showChangePasswordNotification();
-        oldPass.current.value = '';
-        newPass.current.value = '';
-        confirmPass.current.value = '';
-        navigate('/login')
-      })
-      if (response.data.success) {
-        console.log('Password changed successfully');
-      } else {
-        console.error('Error changing password:', response.data.error);
+    const isOldPasswordValid = validateOldPassword();
+    const isNewPasswordValid = validateNewPassword();
+    const isConfirmPasswordValid = validateConfirmPassword();
+
+    if (isOldPasswordValid && isNewPasswordValid && isConfirmPasswordValid) {
+      try {
+        if (author) {
+          await axios
+            .post(`http://10.16.16.108:7000/api/changepassword/author`, {
+              Oldpassword,
+              newpassword,
+              PasswordConfirm,
+              email,
+            })
+            .then((response) => {
+              showChangePasswordNotification();
+              oldPass.current.value = "";
+              newPass.current.value = "";
+              confirmPass.current.value = "";
+              localStorage.removeItem("authortype");
+              navigate("/AuthorLoginPage");
+            });
+        } else {
+          await axios
+            .post(`http://10.16.16.108:7000/api/changepassword`, {
+              Oldpassword,
+              newpassword,
+              PasswordConfirm,
+              email,
+            })
+            .then((response) => {
+              showChangePasswordNotification();
+              oldPass.current.value = "";
+              newPass.current.value = "";
+              confirmPass.current.value = "";
+              localStorage.removeItem("userEmail");
+              navigate("/login");
+            });
+        }
+      } catch (error) {
+        if (error?.response?.status === 401) {
+          InCorrectPasswordNotification();
+        }
       }
-    } catch (error) {
-      console.error('Error:', error);
+    } else {
+      <p>Hello</p>;
     }
   };
   return (
@@ -77,23 +174,26 @@ function Changepassword() {
                     <Form.Group as={Col} md="12" controlId="validationCustom01">
                       <Form.Label>Current password*</Form.Label>
                       <Form.Control
-                        required
-                        type="text"
+                        // required
+                        type={showCurrentPassword ? "password" : "text"}
                         placeholder="Current password"
-                        defaultValue="Current password"
                         ref={oldPass}
                         name="Oldpassword"
                         value={Oldpassword}
                         onChange={(e) => setOldpassword(e.target.value)}
                       />
                       <div className={ChangepasswordStyle.email_icon}>
-                        <a href="/">
-                          <img src={ViewIcon} />
+                        <a onClick={toggleCurrentPassword}>
+                          {showCurrentPassword ? (
+                            <EyeOutlined />
+                          ) : (
+                            <EyeInvisibleOutlined />
+                          )}
                         </a>
                       </div>
-                      <Form.Control.Feedback>
-                        Current password is required
-                      </Form.Control.Feedback>
+                      {oldPasswordError && (
+                        <span className="text-danger">{oldPasswordError}</span>
+                      )}
                     </Form.Group>
                   </Row>
                   <Row
@@ -102,23 +202,26 @@ function Changepassword() {
                     <Form.Group as={Col} md="12" controlId="validationCustom01">
                       <Form.Label>New password*</Form.Label>
                       <Form.Control
-                        required
-                        type="text"
+                        // required
+                        type={showNewPassword ? "password" : "text"}
                         placeholder="New password"
-                        defaultValue="New password"
                         ref={newPass}
                         name="newpassword"
                         value={newpassword}
                         onChange={(e) => setNewpassword(e.target.value)}
                       />
                       <div className={ChangepasswordStyle.email_icon}>
-                        <a href="/">
-                          <img src={ViewIcon} />
+                        <a onClick={toggleNewPassword}>
+                          {showNewPassword ? (
+                            <EyeOutlined />
+                          ) : (
+                            <EyeInvisibleOutlined />
+                          )}
                         </a>
                       </div>
-                      <Form.Control.Feedback>
-                        Current password is required
-                      </Form.Control.Feedback>
+                      {newPasswordError && (
+                        <span className="text-danger">{newPasswordError}</span>
+                      )}
                     </Form.Group>
                   </Row>
                   <Row
@@ -127,35 +230,36 @@ function Changepassword() {
                     <Form.Group as={Col} md="12" controlId="validationCustom01">
                       <Form.Label>Confirm new password</Form.Label>
                       <Form.Control
-                        required
-                        type="text"
+                        // required
+                        type={showConfirmPassword ? "password" : "text"}
                         ref={confirmPass}
                         placeholder="Confirm new password"
-                        defaultValue="Confirm new password"
                         name="PasswordConfirm"
                         value={PasswordConfirm}
                         onChange={(e) => setPasswordConfirm(e.target.value)}
                       />
                       <div className={ChangepasswordStyle.email_icon}>
-                        <a href="/">
-                          <img src={ViewIcon} />
+                        <a onClick={toggleConfirmPassword}>
+                          {showConfirmPassword ? (
+                            <EyeOutlined />
+                          ) : (
+                            <EyeInvisibleOutlined />
+                          )}
                         </a>
                       </div>
-                      <Form.Control.Feedback>
-                        Current password is required
-                      </Form.Control.Feedback>
+                      {confirmPasswordError && (
+                        <span className="text-danger">
+                          {confirmPasswordError}
+                        </span>
+                      )}
                     </Form.Group>
                   </Row>
                   <div className={ChangepasswordStyle.login_btn}>
                     <Button type="submit">Submit</Button>
                   </div>
-                  <Row >
+                  <Row>
                     <Form.Group as={Col} md="12" controlId="validationCustom04">
-                      <Form.Control
-                        type="hidden"
-                        name="email"
-                        value={email}
-                      />
+                      <Form.Control type="hidden" name="email" value={email} />
                     </Form.Group>
                   </Row>
                 </Form>
@@ -167,5 +271,5 @@ function Changepassword() {
       <ToastContainer />
     </>
   );
-}
+};
 export default Changepassword;

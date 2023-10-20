@@ -8,7 +8,7 @@ import mybookStyle from "../../assets/css/mybook.module.css";
 import { Tooltip } from "antd";
 import Sidebar from "../common/Sidebar";
 
-function Currentsubscription() {
+const Currentsubscription = () => {
   const [validated, setValidated] = useState(false);
   const text = <span>Cancel</span>;
   const refund = <span>Refund</span>;
@@ -215,6 +215,6 @@ function Currentsubscription() {
       </div>
     </>
   );
-}
+};
 
 export default Currentsubscription;

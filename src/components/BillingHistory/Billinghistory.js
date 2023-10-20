@@ -10,7 +10,7 @@ import mybookStyle from "../../assets/css/mybook.module.css";
 import { Tooltip } from "antd";
 import Sidebar from "../common/Sidebar";
 
-function Billinghistory() {
+const Billinghistory = () => {
   const [validated, setValidated] = useState(false);
   const text = <span>View</span>;
   const refund = <span>Download</span>;
@@ -196,6 +196,6 @@ function Billinghistory() {
       </div>
     </>
   );
-}
+};
 
 export default Billinghistory;

@@ -8,7 +8,7 @@ import ForgotPassword from "../pages/ForgotPassword";
 import ChangePassword from "../pages/ChangePassword";
 import Dashboard from "../pages/Dashboard";
 import Mybooks from "../pages/Mybooks";
-import CreatenewbookPage from "../pages/CreatenewbookPage";
+// import CreatenewbookPage from "../pages/CreatenewbookPage";
 import Createnewbook from "../components/Createnewbook/Createnewbook";
 import CollaborationPage from "../pages/CollaborationPage";
 import SubscriptionPlanPage from "../pages/SubscriptionPlanPage";
@@ -20,15 +20,18 @@ import EditprofilePage from "../pages/EditprofilePage";
 import AuthorLoginPage from "../pages/AuthorLoginPage";
 import ResetPassword from "../components/ForgotPassword/resetPassword";
 import CreatenewbookUpdate from "../components/CreateNewUpdationForm.js/CreateNewBookUpdate";
+import ForgotPasswordAuthorPage from "../pages/ForgotPasswordAuthor";
+import ResetPasswordAuthor from "../components/ForgotPassword/resetpasswordauthor";
+import ViewBook from "../components/ViewBook/ViewBook";
+import SignupAuthor from "../components/signup/signUpAuthor";
+// bansari route import
 import Maincharacters from "../components/Createnewbook/Maincharacters";
 import Setting from "../components/Createnewbook/Setting";
 import Plotsummary from "../components/Createnewbook/Plotsummary";
 import WritingPreferences from "../components/Createnewbook/WritingPreferences";
 import WritingInterface from "../components/Createnewbook/WritingInterface";
 import Chapter from "../components/Createnewbook/Chapter";
-
-
-
+import ChatApp from "../components/Chatboat/Chatboat";
 
 const AllRoutes = () => {
   return (
@@ -39,8 +42,9 @@ const AllRoutes = () => {
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        {/* <Route path="/aboutus" element={<AboutUs/>}/> */}
         <Route path="/forgotpassword" element={<ForgotPassword />} />
-        {/* <Route path="/resetpassword/:email/:token/:timestampFromURL" element={<ResetPassword />} /> */}
+
         <Route path="/resetpassword/:token" element={<ResetPassword />} />
         <Route path="/changePassword/" element={<ChangePassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
@@ -60,13 +64,14 @@ const AllRoutes = () => {
         <Route path="/maincharacters/:id" element={<Maincharacters />} />
         <Route path="/setting/:id" element={<Setting />} />
         <Route path="/plotsummary/:id" element={<Plotsummary />} />
-        <Route path="/writingpreferences/:id" element={<WritingPreferences />} />
+        <Route
+          path="/writingpreferences/:id"
+          element={<WritingPreferences />}
+        />
         <Route path="/witinginterface/:id" element={<WritingInterface />} />
-        <Route path="/createnewbookupdate/:_id" element={<CreatenewbookUpdate />} />
         <Route path="/chapter/:id" element={<Chapter />} />
 
-
-
+        {/* My Routes */}
         <Route path="/collaborationpage" element={<CollaborationPage />} />
         <Route path="/subscriptionplan" element={<SubscriptionPlanPage />} />
         <Route
@@ -78,6 +83,17 @@ const AllRoutes = () => {
         <Route path="/previewexportpage" element={<PreviewExportPage />} />
         <Route path="/editprofilepage" element={<EditprofilePage />} />
         <Route path="/authorloginpage" element={<AuthorLoginPage />} />
+        <Route
+          path="/forgotpasswordauthor"
+          element={<ForgotPasswordAuthorPage />}
+        />
+        <Route
+          path="/resetpasswordauthor/:token"
+          element={<ResetPasswordAuthor />}
+        />
+        <Route path="/viewbook" element={<ViewBook />} />
+        <Route path="/signupauthor" element={<SignupAuthor />} />
+        <Route path="/chatboat" element={<ChatApp />} />
       </Routes>
     </BrowserRouter>
   );

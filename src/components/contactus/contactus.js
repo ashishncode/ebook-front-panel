@@ -10,9 +10,16 @@ import contactStyle from "../../assets/css/contact.module.css";
 import AddressIcon from "../../assets/images/address_icon.png";
 import Contactinfo from "../../assets/images/contact_info.png";
 import Livesupport from "../../assets/images/live_support.png";
-import { message } from "antd";
+import { notification } from "antd";
+import { contactForm } from "../../utility/api";
 
-function Contactus() {
+const Contactus = () => {
+  const showLoginSuccessNotification = () => {
+    notification.success({
+      message: "Form submit",
+      description: "From submitted successfully.",
+    });
+  };
   const {
     register,
     handleSubmit,
@@ -21,8 +28,11 @@ function Contactus() {
   } = useForm();
 
   const onSubmit = (data, e) => {
-    axios.post(`http://10.16.16.46:7000/add/contact`, data).then((res) => {
-      reset();
+    contactForm(data).then((res) => {
+      if (res.status === 200) {
+        showLoginSuccessNotification();
+        reset();
+      }
     });
   };
 
@@ -67,7 +77,7 @@ function Contactus() {
               </div>
               <strong>Live support</strong>
               <p>
-                live chat service<br></br> <a href="/">example@email.com</a>
+                live chat service<br></br> <a>example@email.com</a>
               </p>
             </div>
           </div>
@@ -150,6 +160,6 @@ function Contactus() {
       </div>
     </>
   );
-}
+};
 
 export default Contactus;

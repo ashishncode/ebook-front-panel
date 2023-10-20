@@ -3,7 +3,7 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import AuthorLogin from "../components/Authorlogin/Authorlogin";
 
-function AuthorLoginPage() {
+const AuthorLoginPage = () => {
   return (
     <header className="App-header">
       <Header />
@@ -11,6 +11,6 @@ function AuthorLoginPage() {
       <Footer />
     </header>
   );
-}
+};
 
 export default AuthorLoginPage;

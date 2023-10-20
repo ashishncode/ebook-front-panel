@@ -4,8 +4,44 @@ import WhyChooseImg from "../../assets/images/why-choose-right-img.png";
 import PaymentIcon from "../../assets/images/payment-icon.png";
 import UserImg from "../../assets/images/user-1.jpg";
 import UserPlus from "../../assets/images/user-2.png";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const HomeWhyChooseUs = () => {
+  const [totalUsers, setTotalUsers] = useState("");
+
+  const animateCounter = (setStateFunction, totalCount) => {
+    const step = 1; // Increment by 1 each time
+    let currentCount = 0;
+
+    const timer = setInterval(() => {
+      currentCount += step;
+      setStateFunction((prevCount) =>
+        currentCount < totalCount ? currentCount : totalCount
+      );
+
+      if (currentCount >= totalCount) {
+        clearInterval(timer);
+      }
+    }, 40); // Adjust the interval as needed
+  };
+  useEffect(() => {
+    const fetchTotalUsers = async () => {
+      try {
+        const response = await axios.get(
+          "http://10.16.16.108:7000/api/totalusercount"
+        );
+
+        if (response.status === 200) {
+          const totalCount = response.data.TotalUsers;
+          animateCounter(setTotalUsers, totalCount);
+        }
+      } catch (error) {
+        console.error("Error fetching total users:", error);
+      }
+    };
+    fetchTotalUsers();
+  }, []);
   return (
     <>
       <div className="common-container">
@@ -59,7 +95,7 @@ const HomeWhyChooseUs = () => {
                 </div>
               </div>
               <div className="users-text-box">
-                <span className="users-text">700+ users</span>
+                <span className="users-text">{`${totalUsers}+ users`} </span>
                 <div className="users-boxs">
                   <div className="users">
                     <img src={UserImg} />

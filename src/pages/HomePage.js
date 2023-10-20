@@ -5,11 +5,14 @@ import HomePackages from "../components/home/homePackages";
 import HomeWhyChooseUs from "../components/home/homeWhyChooseUs";
 import Latestebooks from "../components/home/latestBbooks";
 import MainBanner from "../components/home/mainBanner";
+import HeaderLogin from "../components/common/Header_login";
 
 const HomePage = () => {
+  const author = localStorage.getItem("authortype");
+  const userEmail = localStorage.getItem("userEmail");
   return (
     <>
-      <Header />
+      {author || userEmail ? <HeaderLogin /> : <Header />}
       <MainBanner />
       <HomeContent />
       <Latestebooks />

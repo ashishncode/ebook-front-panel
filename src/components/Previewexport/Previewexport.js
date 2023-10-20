@@ -10,20 +10,7 @@ import { Tooltip } from "antd";
 import EbookCarousel from "../common/Carousel";
 import Sidebar from "../common/Sidebar";
 
-function Previewexport() {
-  const [validated, setValidated] = useState(false);
-  const text = <span>View</span>;
-  const refund = <span>Download</span>;
-
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    setValidated(true);
-  };
-
+const Previewexport = () => {
   return (
     <>
       <div className="common-container">
@@ -41,6 +28,6 @@ function Previewexport() {
       </div>
     </>
   );
-}
+};
 
 export default Previewexport;

@@ -77,11 +77,11 @@
   padding: 0 20px;
   box-sizing: border-box;
 }
-.contactus_form input::placeholder {
+/* .contactus_form input::placeholder {
   font-family: "CircularStd";
   font-size: 17px;
   color: #000 !important;
-}
+} */
 .contactus_form input:focus {
   border: solid 1px #000 !important;
 }
@@ -95,11 +95,11 @@
   box-sizing: border-box;
   margin-top: 8px;
 }
-.contactus_form textarea::placeholder {
+/* .contactus_form textarea::placeholder {
   font-family: "CircularStd";
   font-size: 17px;
   color: #000 !important;
-}
+} */
 .contactus_form textarea:focus {
   border: solid 1px #000 !important;
 }
